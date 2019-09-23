@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class PricingBody extends React.Component {
     state = {
@@ -7,7 +8,7 @@ class PricingBody extends React.Component {
     
     getListDataHandler = (e) => {
         e.preventDefault();
-        const url = '';
+        const url = 'localhost:44304/api/products';
         axios.get(url).then(
             (resp) => {
                 this.setState({prods: resp.data});
@@ -16,11 +17,11 @@ class PricingBody extends React.Component {
     }
     render() { 
         const prodItems = this.state.prods.map((product) =>
-            <div className="card mb-4 box-shadow border-danger">
+            <div key={product.id} className="card mb-4 box-shadow border-danger">
                 <div className="card-header">
-                    <h4 className="my-0 font-weight-normal">Free</h4>
+                    <h4 className="my-0 font-weight-normal">{product.Name}</h4>
                 </div>
-                <img src="https://cdn4.wpbeginner.com/wp-content/uploads/2019/01/whyiswpfree.png" className="card-img-top p-1" alt=""/>
+                <img src={product.Image} className="card-img-top p-1" alt=""/>
                 <div className="card-body">
                     <h1 className="card-title pricing-card-title">$0 <small className="text-muted">/ mo</small></h1>
                     <ul className="list-unstyled mt-3 mb-4">
@@ -34,7 +35,8 @@ class PricingBody extends React.Component {
             </div>
         );
         return (
-            <div className="card-deck mb-3 text-center">
+            <div className="card-deck mb-3 text-center" onLoad={this.getListDataHandler}>
+                <button onClick={this.getListDataHandler}>Get data</button>
                 {prodItems}
                 <div className="card mb-4 box-shadow border-warning">
                     <div className="card-header">
