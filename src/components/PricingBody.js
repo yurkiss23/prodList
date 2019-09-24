@@ -8,7 +8,8 @@ class PricingBody extends React.Component {
     
     getListDataHandler = (e) => {
         e.preventDefault();
-        const url = 'localhost:44304/api/products';
+
+        const url = 'https://localhost:44304/api/products';
         axios.get(url).then(
             (resp) => {
                 this.setState({prods: resp.data});
@@ -19,56 +20,26 @@ class PricingBody extends React.Component {
         const prodItems = this.state.prods.map((product) =>
             <div key={product.id} className="card mb-4 box-shadow border-danger">
                 <div className="card-header">
-                    <h4 className="my-0 font-weight-normal">{product.Name}</h4>
+                    <h4 className="my-0 font-weight-normal">{product.name}</h4>
                 </div>
-                <img src={product.Image} className="card-img-top p-1" alt=""/>
+                <img src={product.image} className="card-img-top p-1" alt=""/>
                 <div className="card-body">
-                    <h1 className="card-title pricing-card-title">$0 <small className="text-muted">/ mo</small></h1>
+                    <h1 className="card-title pricing-card-title">{product.price} <small className="text-muted">/ mo</small></h1>
                     <ul className="list-unstyled mt-3 mb-4">
-                        <li>10 users included</li>
-                        <li>2 GB of storage</li>
-                        <li>Email support</li>
-                        <li>Help center access</li>
+                        <li>{product.description[0]}</li>
+                        <li>{product.description[1]}</li>
+                        <li>{product.description[2]}</li>
+                        <li>{product.description[3]}</li>
                     </ul>
-                    <button type="button" className="btn btn-lg btn-block btn-outline-primary">Sign up for free</button>
+                    <button type="button" className="btn btn-lg btn-block btn-outline-primary">{product.btnContent}</button>
                 </div>
             </div>
         );
         return (
-            <div className="card-deck mb-3 text-center" onLoad={this.getListDataHandler}>
-                <button onClick={this.getListDataHandler}>Get data</button>
-                {prodItems}
-                <div className="card mb-4 box-shadow border-warning">
-                    <div className="card-header">
-                        <h4 className="my-0 font-weight-normal">Pro</h4>
-                    </div>
-                    <img src="https://iccrc-crcic.ca/wp-content/uploads/2018/01/Become-a-Immigration-Professional-1468x848.jpg" className="card-img-top p-1" alt=""/>
-                    <div className="card-body">
-                        <h1 className="card-title pricing-card-title">$15 <small className="text-muted">/ mo</small></h1>
-                        <ul className="list-unstyled mt-3 mb-4">
-                            <li>20 users included</li>
-                            <li>10 GB of storage</li>
-                            <li>Priority email support</li>
-                            <li>Help center access</li>
-                        </ul>
-                        <button type="button" className="btn btn-lg btn-block btn-primary">Get started</button>
-                    </div>
-                </div>
-                <div className="card mb-4 box-shadow border-success">
-                    <div className="card-header">
-                        <h4 className="my-0 font-weight-normal">Enterprise</h4>
-                    </div>
-                    <img src="https://vignette.wikia.nocookie.net/memoryalpha/images/d/df/USS_Enterprise-A_quarter.jpg/revision/latest?cb=20100518022537&path-prefix=en" className="card-img-top p-1" alt=""/>
-                    <div className="card-body">
-                        <h1 className="card-title pricing-card-title">$29 <small className="text-muted">/ mo</small></h1>
-                        <ul className="list-unstyled mt-3 mb-4">
-                            <li>30 users included</li>
-                            <li>15 GB of storage</li>
-                            <li>Phone and email support</li>
-                            <li>Help center access</li>
-                        </ul>
-                        <button type="button" className="btn btn-lg btn-block btn-primary">Contact us</button>
-                    </div>
+            <div>
+                <button className="btn btn-success btn-block" onClick={this.getListDataHandler}>Get data</button>
+                <div className="card-deck mb-3 text-center">
+                    {prodItems}
                 </div>
             </div>
         );
